@@ -1,6 +1,6 @@
 ---
 name: welcome-me
-description: Greet user with a specific message when they say they're new or ask for a welcome message.
+description: Use when a user is new to the project, asks how to get started, is onboarding, asks what they should do first, or indicates they are unfamiliar with the repository.
 license: MIT
 metadata:
   author: mishrashardendu22

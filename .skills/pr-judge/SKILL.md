@@ -1,6 +1,6 @@
 ---
 name: pr-judge
-description: Judge the quality of a pull request based on predefined criteria.
+description: Use when the user asks to review, evaluate, critique, or judge a pull request, code review, patch, commit, or software changes.
 license: MIT
 metadata:
   author: mishrashardendu22

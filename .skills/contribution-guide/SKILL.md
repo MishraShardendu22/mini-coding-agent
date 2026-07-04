@@ -1,6 +1,6 @@
 ---
 name: contribution-guide
-description: Provide guidance on how to contribute to the project, on open-source ideas, rules on contributings, DCO and CLA.
+description: Use when the user asks how to contribute, submit code, create pull requests, follow contribution guidelines, become a contributor, or asks about the contribution workflow.
 license: MIT
 metadata:
   author: mishrashardendu22
