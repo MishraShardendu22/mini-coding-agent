@@ -1,6 +1,6 @@
 import { client, routerModel } from "./anthropic.js";
 import { buildRoutingPrompt } from "./prompts.js";
-import { extractText, retryWithBackoff } from "./utils.js";
+import retryWithBackoff, { extractText } from "./utils.js";
 
 export async function selectSkills(userPrompt, skills) {
     const catalog = skills

@@ -4,9 +4,12 @@ import { stripFrontMatter } from "./utils.js";
 
 const SKILLS_DIR = ".skills";
 
+// cache skill content to avoid reading the same file multiple times
+const skillContentCache = new Map();
+
+// captures everything between the first opening --- and the next closing --- at the start of the file.
 export function loadSkillMetadata(skillFilePath) {
     const content = fs.readFileSync(skillFilePath, "utf8");
-
     const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
 
     if (!match) {
@@ -15,6 +18,7 @@ export function loadSkillMetadata(skillFilePath) {
 
     const metadata = {};
 
+    // line wise match and create a key value pair in the metadata object
     for (const line of match[1].split(/\r?\n/)) {
         const idx = line.indexOf(":");
 
@@ -43,23 +47,30 @@ export function loadSkillMetadata(skillFilePath) {
 }
 
 export function discoverSkills() {
+    // returns true if the skills directory exists, false otherwise
     if (!fs.existsSync(SKILLS_DIR)) {
         throw new Error(`Directory '${SKILLS_DIR}' not found.`);
     }
 
     const skills = [];
 
+    // reads all the files in the skills directory
     const entries = fs.readdirSync(SKILLS_DIR, {
         withFileTypes: true,
     });
 
+    // 
     for (const entry of entries) {
+        // skip if the entry is not a directory
         if (!entry.isDirectory()) continue;
 
+        // path of skill.md for each
         const skillFile = path.join(SKILLS_DIR, entry.name, "SKILL.md");
 
+        // Returns true if the path exists, false otherwise.
         if (!fs.existsSync(skillFile)) continue;
 
+        // loads the skill metadata and pushes it to the skills array
         try {
             skills.push(loadSkillMetadata(skillFile));
         } catch (err) {
@@ -67,17 +78,26 @@ export function discoverSkills() {
         }
     }
 
+    // return the skills array
     return skills;
 }
 
 export function loadSkillContent(skill) {
-    const sections = [];
+    // check skill content cache for the skill path, if it exists return the cached content
+    if (skillContentCache.has(skill.path)) {
+        return skillContentCache.get(skill.path);
+    }
 
+    // content is not in the cache, read the skill file and any docs in the docs directory
+    const sections = [];
     const raw = fs.readFileSync(skill.path, "utf8");
     sections.push(stripFrontMatter(raw));
 
+    // read documentation files in the docs directory
     const docsDir = path.join(path.dirname(skill.path), "docs");
 
+    // check if the docs directory exists, 
+    // if it does read all the markdown files in it and append their content to the sections array 
     if (fs.existsSync(docsDir)) {
         const docs = fs
             .readdirSync(docsDir)
@@ -99,5 +119,9 @@ ${fs.readFileSync(docPath, "utf8")}
         }
     }
 
-    return sections.join("\n\n");
+    const content = sections.join("\n\n");
+
+    // cache the content for future use
+    skillContentCache.set(skill.path, content);
+    return content;
 }

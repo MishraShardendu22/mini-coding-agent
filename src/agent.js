@@ -1,9 +1,10 @@
-import { client, agentModel } from "./anthropic.js";
-import { loadSkillContent } from "./skills.js";
 import { selectSkills } from "./selector.js";
+import { loadSkillContent } from "./skills.js";
 import { BASE_SYSTEM_PROMPT } from "./prompts.js";
-import { extractText, parseRouterResponse, retryWithBackoff } from "./utils.js";
+import { client, agentModel } from "./anthropic.js";
+import retryWithBackoff, { extractText, parseRouterResponse } from "./utils.js";
 
+// running the agent with the user prompt and matched skills
 async function runAgent(userPrompt, matchedSkills) {
     let systemPrompt = BASE_SYSTEM_PROMPT;
 
@@ -26,6 +27,7 @@ END SKILL
         }
     }
 
+    // run the agent with the user prompt and the system prompt
     const response = await retryWithBackoff(() =>
         client.messages.create({
             model: agentModel,
@@ -43,26 +45,13 @@ END SKILL
     return extractText(response);
 }
 
+// processPrompt takes a user prompt and a list of skills, selects the relevant skills, runs the agent with the selected skills, and prints the response.
 export async function processPrompt(userPrompt, skills) {
     const selected = await selectSkills(userPrompt, skills);
-
     const selectedNames = parseRouterResponse(selected);
-
     const matchedSkills = skills.filter((skill) =>
         selectedNames.includes(skill.name.toLowerCase())
     );
-
     const response = await runAgent(userPrompt, matchedSkills);
-
-    console.log("\n----------------------------------------");
-    console.log("Matched Skills:");
-    console.log(
-        matchedSkills.length
-            ? matchedSkills.map((s) => s.name).join(", ")
-            : "None"
-    );
-
-    console.log("\nResponse:\n");
-    console.log(response);
-    console.log("----------------------------------------\n");
+    return { matchedSkills, response };
 }

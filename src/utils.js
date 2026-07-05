@@ -2,6 +2,25 @@ export function stripFrontMatter(content) {
     return content.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "").trim();
 }
 
+/*
+Example API response:
+
+{
+    content: [
+        {
+            type: "text",
+            text: "Hello "
+        },
+        {
+            type: "text",
+            text: "World"
+        }
+    ]
+}
+
+The function returns: Hello World
+// converts an API response into a plain string
+*/ 
 export function extractText(response) {
     if (!response) {
         throw new Error("No response returned from API.");
@@ -21,6 +40,23 @@ export function extractText(response) {
         .trim();
 }
 
+/*
+This function converts the LLM output into an array of skill names.
+
+Example input:
+
+{"skills":["git","docker","linux"]}
+
+Output:
+
+[
+    "git",
+    "docker",
+    "linux"
+]
+*/ 
+// parseRouterResponse takes a string response from the 
+// router and returns an array of skill names.
 export function parseRouterResponse(text) {
     const trimmed = text.trim();
 
@@ -64,7 +100,9 @@ export function parseRouterResponse(text) {
     )];
 }
 
-export async function retryWithBackoff(fn, maxRetries = 3) {
+// retry wuth exponential backoff for transient errors (429, 500, 502, 503)
+// 2 4 8 16 32 64
+export default async function retryWithBackoff(fn, maxRetries = 4){
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
             return await fn();
