@@ -20,7 +20,7 @@ if (!routerModel || !agentModel) {
 
 const client = new Anthropic({
     apiKey,
-    baseURL: "https://openrouter.ai/api",
+    // baseURL: "https://openrouter.ai/api",
 });
 
 const config = {

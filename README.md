@@ -1,5 +1,23 @@
 # Mini Coding Agent
 
+## Time Spent
+
+| Task                                                                                                                    | Time    |
+| ----------------------------------------------------------------------------------------------------------------------- | ------- |
+| Learning about Skills, reading documentation, and exploring examples from https://github.com/CommandCodeAI/agent-skills | 6 hours |
+| System design and implementation                                                                                        | 2 hours |
+| Testing, debugging, and improving the system                                                                            | 3 hours |
+| Refactoring                                                                                                             | 1 hour  |
+
+## Sample .env
+
+```
+MODEL=
+API_KEY=
+AGENT_MODEL=
+ROUTER_MODEL=
+```
+
 ## How to run the CLI tool
 
 ```bash
