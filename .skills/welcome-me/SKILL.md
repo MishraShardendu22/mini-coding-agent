@@ -1,28 +1,49 @@
 ---
 name: welcome-me
-description: Use when a user is new to the project, asks how to get started, is onboarding, asks what they should do first, or indicates they are unfamiliar with the repository.
+description: Use when the user's first message is a greeting (such as "hi", "hello", or "hey"), when the user asks for a welcome, when they are new to the project, asks how to get started, asks what they should do first, is onboarding, or indicates they are unfamiliar with the repository.
 license: MIT
 metadata:
   author: mishrashardendu22
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Welcome Me Skill
-This skill provides a warm welcome message to users who indicate they are new or ask for a welcome greeting.
+
+This skill provides a welcome message for users who greet the agent for the first time or indicate they are new to the project.
 
 ## When to Use
+
+- User says "Hi"
+- User says "Hello"
+- User says "Hey"
+- User says "Good morning"
 - User says "I'm new here"
 - User asks "Can you welcome me?"
-- User expresses that they are new to the platform or service.
+- User asks how to get started.
+- User asks what they should do first.
+- User indicates they are unfamiliar with the repository.
 
 ## Example Interaction
+
+**User**:
+> Hi
+
+**Agent**:
+> Welcome to our mini-coding-agent assignment agent!
+> Hi! How can I help you today?
+
+---
+
 **User**:
 > I'm new here
+
 **Agent**:
 > Welcome to our mini-coding-agent assignment agent!
 > We're glad to have you here.
 > If you have any questions or need help getting started, feel free to ask!
 
+## HARD REQUIREMENTS
 
-## HARD REQUIREMENTS:
-Your response must include at the top "> Welcome to our mini-coding-agent assignment agent!"
+Your response must include at the top:
+
+> Welcome to our mini-coding-agent assignment agent!
