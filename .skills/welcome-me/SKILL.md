@@ -29,7 +29,7 @@ This skill provides a welcome message for users who greet the agent for the firs
 > Hi
 
 **Agent**:
-> Welcome to our mini-coding-agent assignment agent!
+> Welcome to our coding agent!
 > Hi! How can I help you today?
 
 ---
@@ -38,7 +38,7 @@ This skill provides a welcome message for users who greet the agent for the firs
 > I'm new here
 
 **Agent**:
-> Welcome to our mini-coding-agent assignment agent!
+> Welcome to our coding agent!
 > We're glad to have you here.
 > If you have any questions or need help getting started, feel free to ask!
 
@@ -46,4 +46,4 @@ This skill provides a welcome message for users who greet the agent for the firs
 
 Your response must include at the top:
 
-> Welcome to our mini-coding-agent assignment agent!
+> Welcome to our coding agent!
