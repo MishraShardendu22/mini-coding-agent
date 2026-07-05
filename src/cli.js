@@ -18,7 +18,7 @@ function printMenu() {
     console.log("\nType a number to select, or type your own prompt.\n");
 }
 
-export function startCli(skills) {
+export function startCli(skills, config) {
     console.log("Mini Coding Agent");
     console.log("=================");
     console.log(`Loaded ${skills.length} skills.`);
@@ -76,7 +76,11 @@ export function startCli(skills) {
                 }
             }, 500);
 
-            const { matchedSkills, response } = await processPrompt(prompt, skills);
+            const { matchedSkills, response } = await processPrompt(
+                prompt,
+                skills,
+                config
+            );
             
             clearInterval(interval);
             readline.clearLine(process.stdout, 0);

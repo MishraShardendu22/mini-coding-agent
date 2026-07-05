@@ -1,11 +1,10 @@
 import { selectSkills } from "./selector.js";
 import { loadSkillContent } from "./skills.js";
 import { BASE_SYSTEM_PROMPT } from "./prompts.js";
-import { client, agentModel } from "./anthropic.js";
 import retryWithBackoff, { extractText, parseRouterResponse } from "./utils.js";
 
 // running the agent with the user prompt and matched skills
-async function runAgent(userPrompt, matchedSkills) {
+async function runAgent(userPrompt, matchedSkills, config) {
     let systemPrompt = BASE_SYSTEM_PROMPT;
 
     if (matchedSkills.length > 0) {
@@ -29,8 +28,8 @@ END SKILL
 
     // run the agent with the user prompt and the system prompt
     const response = await retryWithBackoff(() =>
-        client.messages.create({
-            model: agentModel,
+        config.client.messages.create({
+            model: config.agentModel,
             max_tokens: 1024,
             system: systemPrompt,
             messages: [
@@ -46,12 +45,12 @@ END SKILL
 }
 
 // processPrompt takes a user prompt and a list of skills, selects the relevant skills, runs the agent with the selected skills, and prints the response.
-export async function processPrompt(userPrompt, skills) {
-    const selected = await selectSkills(userPrompt, skills);
+export async function processPrompt(userPrompt, skills, config) {
+    const selected = await selectSkills(userPrompt, skills, config);
     const selectedNames = parseRouterResponse(selected);
     const matchedSkills = skills.filter((skill) =>
         selectedNames.includes(skill.name.toLowerCase())
     );
-    const response = await runAgent(userPrompt, matchedSkills);
+    const response = await runAgent(userPrompt, matchedSkills, config);
     return { matchedSkills, response };
 }

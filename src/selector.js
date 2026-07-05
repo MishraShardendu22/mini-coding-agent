@@ -1,8 +1,7 @@
-import { client, routerModel } from "./anthropic.js";
 import { buildRoutingPrompt } from "./prompts.js";
 import retryWithBackoff, { extractText } from "./utils.js";
 
-export async function selectSkills(userPrompt, skills) {
+export async function selectSkills(userPrompt, skills, config) {
     const catalog = skills
         .map(
             (skill) =>
@@ -11,8 +10,8 @@ export async function selectSkills(userPrompt, skills) {
         .join("\n\n");
 
     const response = await retryWithBackoff(() =>
-        client.messages.create({
-            model: routerModel,
+        config.client.messages.create({
+            model: config.routerModel,
             max_tokens: 100,
             messages: [
                 {
